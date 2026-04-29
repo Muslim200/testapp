@@ -1,0 +1,29 @@
+CREATE DATABASE IF NOT EXISTS bankdb;
+USE bankdb;
+
+CREATE TABLE IF NOT EXISTS accounts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  iban VARCHAR(34) NOT NULL UNIQUE,
+  holder VARCHAR(100) NOT NULL,
+  balance DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  currency VARCHAR(3) NOT NULL DEFAULT 'EUR',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS transactions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  from_bic VARCHAR(20) NOT NULL,
+  to_bic VARCHAR(20) NOT NULL,
+  from_iban VARCHAR(34),
+  to_iban VARCHAR(34),
+  amount DECIMAL(10,2) NOT NULL,
+  currency VARCHAR(3) DEFAULT 'EUR',
+  status VARCHAR(20) DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO accounts (iban, holder, balance, currency)
+VALUES
+  ('BE98000222223333', 'KBC Demo Rekening', 800.00, 'EUR'),
+  ('BE76000444445555', 'KBC Reserve Rekening', 320.00, 'EUR')
+ON DUPLICATE KEY UPDATE holder = VALUES(holder);
