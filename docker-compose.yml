@@ -34,6 +34,17 @@ services:
       timeout: 5s
       retries: 10
 
+  adminer:
+    image: adminer:latest
+    container_name: bankius_adminer
+    ports:
+      - "8091:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - internal
+
 networks:
   pingfin_net:
     external: true

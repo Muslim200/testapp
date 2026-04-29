@@ -4,6 +4,7 @@ Kleine Express.js testapplicatie voor de projectweek-deploy volgens de bankteam-
 
 - `app`: Node.js/Express API op containerpoort `80`
 - `db`: MySQL database in een tweede container
+- `adminer`: webinterface voor MySQL op poort `8091`
 - verplicht health-check endpoint: `/api/info/`
 - standaard Bank IUS instellingen: `bankius_app`, `bankius_db`, hostpoort `8081`
 
@@ -35,6 +36,28 @@ curl http://localhost:8081/api/accounts/
 curl http://localhost:8081/api/transactions/
 ```
 
+Open de app-dashboardpagina:
+
+```text
+http://localhost:8081/dashboard
+```
+
+Open Adminer:
+
+```text
+http://localhost:8091
+```
+
+Adminer login:
+
+```text
+System: MySQL
+Server: db
+Username: root
+Password: password
+Database: bankdb
+```
+
 Stoppen:
 
 ```bash
@@ -52,6 +75,7 @@ docker compose down -v
 - `GET /api/info/`: verplichte status met team, BIC en members
 - `GET /api/accounts/`: voorbeeldrekeningen uit MySQL
 - `GET /api/transactions/`: voorbeeldtransacties uit MySQL
+- `GET /dashboard`: eenvoudige pagina die data uit MySQL toont
 
 ## Aanpassen per team
 
