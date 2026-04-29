@@ -6,15 +6,8 @@ services:
     container_name: bankius_app
     ports:
       - "8081:80"
-    environment:
-      DB_HOST: db
-      DB_USER: root
-      DB_PASSWORD: password
-      DB_NAME: bankdb
-      DB_PORT: 3306
-      TEAM_NAME: Bank IUS
-      TEAM_BIC: BANKIUS1
-      TEAM_MEMBERS: student1,student2
+    env_file:
+      - .env.example
     depends_on:
       db:
         condition: service_healthy

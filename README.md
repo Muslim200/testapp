@@ -15,6 +15,13 @@ bash deploy.sh https://github.com/jouw-team/bank-api-demo netwerkteam
 
 ## Lokaal testen
 
+De compose-file laadt standaard `.env.example`, zodat een verse clone meteen werkt met het deployscript.
+Wil je lokaal eigen waarden testen, kopieer dan de voorbeeldvariabelen naar `.env`:
+
+```bash
+cp .env.example .env
+```
+
 Op de server bestaat `pingfin_net` al. Lokaal moet je dat netwerk eenmalig aanmaken:
 
 ```bash
@@ -48,7 +55,7 @@ docker compose down -v
 
 ## Aanpassen per team
 
-Pas in `docker-compose.yml` deze waarden aan volgens de guidelines:
+Pas in `docker-compose.yml` de containernamen en poort aan volgens de guidelines:
 
 | Team | App container | DB container | Poort |
 | --- | --- | --- | --- |
@@ -56,4 +63,26 @@ Pas in `docker-compose.yml` deze waarden aan volgens de guidelines:
 | Bank IUS | `bankius_app` | `bankius_db` | `8081` |
 | Bank KBC | `bankkbc_app` | `bankkbc_db` | `8082` |
 
-Pas ook `TEAM_NAME`, `TEAM_BIC` en `TEAM_MEMBERS` aan.
+Pas in `.env.example` ook `TEAM_NAME`, `TEAM_BIC` en `TEAM_MEMBERS` aan voordat je pusht.
+Voor lokale tests mag je dezelfde waarden kopieren naar `.env`.
+
+## Environment variables
+
+Alle variabelen die de app nodig heeft staan in `.env.example`:
+
+```bash
+DB_HOST=db
+DB_USER=root
+DB_PASSWORD=password
+DB_NAME=bankdb
+DB_PORT=3306
+TEAM_NAME=Bank IUS
+TEAM_BIC=BANKIUS1
+TEAM_MEMBERS=student1,student2
+```
+
+Gebruik lokaal als je waarden wilt aanpassen zonder `.env.example` te wijzigen:
+
+```bash
+cp .env.example .env
+```
