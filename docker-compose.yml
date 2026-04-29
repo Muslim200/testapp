@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: bankius_app
+    ports:
+      - "8081:80"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: bankdb
+      DB_PORT: 3306
+      TEAM_NAME: Bank IUS
+      TEAM_BIC: BANKIUS1
+      TEAM_MEMBERS: student1,student2
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - pingfin_net
+      - internal
+
+  db:
+    image: mysql:8.0
+    container_name: bankius_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: bankdb
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+networks:
+  pingfin_net:
+    external: true
+  internal:
+    driver: bridge
+
+volumes:
+  mysql_data:
